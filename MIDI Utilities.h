@@ -13,5 +13,6 @@ struct MIDI_TRACK_HEADER {
 	uint32_t           ChunckSize; //DWORD
 	uint32_t           VariableLengthData; //MAXIMUM 4 BYTES LONG
 	uint8_t            StatusByte; //1 BYTE IN TOTAL
-	uint16_t           DataBytes[2]; // 2 BYTES IN TOTAL
+	uint8_t           Parameter_1; // 1 BYTE IN TOTAL
+	uint8_t           Parameter_2; // 1 BYTE IN TOTAL
 };
