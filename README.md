@@ -2,6 +2,7 @@
 A school project, with the end goal being a MIDI visual synthesizer.
 
 Output:
+
 File type is: MThd
 
 Bytes to follow: 100663296
