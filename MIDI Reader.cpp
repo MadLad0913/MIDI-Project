@@ -26,6 +26,7 @@ int main()
 	std::cout << "File type is: " << midi_track_header.MTrk << std::endl;
 	std::cout << "Bytes to follow: " << midi_track_header.ChunckSize << std::endl;
 	std::cout << "Delta time duration: " << midi_track_header.VariableLengthData << std::endl;
-	std::cout << "Status Byte:" << midi_track_header.StatusByte << std::endl;
-	std::cout << "Data Bytes:" << midi_track_header.DataBytes << std::endl;
+	std::cout << "Status Byte: " << midi_track_header.StatusByte << std::endl;
+	std::cout << "Parameter 1: " << midi_track_header.Parameter_1 << std::endl;
+	std::cout << "Parameter 2: " << midi_track_header.Parameter_2 << std::endl;
 }
