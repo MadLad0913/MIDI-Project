@@ -1,32 +1,38 @@
+#include "MidiFile.h"
+#include "Options.h"
 #include <iostream>
-#include <fstream>
-#include "MIDI Utilities.h"
+#include <iomanip>
 
-int main()
-{
-	std::ifstream In_File("C:\\Users\\micah\\Documents\\Twinkle.mid", std::ios::binary | std::ios::in);
-	if (!In_File)
-	{
-		std::cerr << "Problem opening file!";
-		return 1;
-	}
+using namespace std;
+using namespace smf;
 
-	MIDI_CHUNK_HEADER midi_chunk_header;
-	In_File.read((char*)&midi_chunk_header, sizeof(MIDI_CHUNK_HEADER));
-	std::cout << "File type is: "<< midi_chunk_header.MThd << std::endl;
-	std::cout << "Bytes to follow: " << midi_chunk_header.ChunckSize << std::endl;
-	std::cout << "MIDI Format: " << midi_chunk_header.Format << std::endl;
-	std::cout << "MIDI Track: " << midi_chunk_header.Track << std::endl;
-	std::cout << "MIDI Time Division: " << midi_chunk_header.TimeDivision << std::endl;
+int main(int argc, char** argv) {
+   Options options;
+   options.process(argc, argv);
+   MidiFile midifile;
+   if (options.getArgCount() == 0) midifile.read(cin);
+   else midifile.read(options.getArg(1));
+   midifile.doTimeAnalysis();
+   midifile.linkNotePairs();
 
-	std::cout << "==========================================" << std::endl; 
+   int tracks = midifile.getTrackCount();
+   cout << "TPQ: " << midifile.getTicksPerQuarterNote() << endl;
+   if (tracks > 1) cout << "TRACKS: " << tracks << endl;
+   for (int track=0; track<tracks; track++) {
+      if (tracks > 1) cout << "\nTrack " << track << endl;
+      cout << "Tick\tSeconds\tDur\tMessage" << endl;
+      for (int event=0; event<midifile[track].size(); event++) {
+         cout << dec << midifile[track][event].tick;
+         cout << '\t' << dec << midifile[track][event].seconds;
+         cout << '\t';
+         if (midifile[track][event].isNoteOn())
+            cout << midifile[track][event].getDurationInSeconds();
+         cout << '\t' << hex;
+         for (int i=0; i<midifile[track][event].size(); i++)
+            cout << (int)midifile[track][event][i] << ' ';
+         cout << endl;
+      }
+   }
 
-	MIDI_TRACK_HEADER midi_track_header;
-	In_File.read((char*)&midi_track_header, sizeof(MIDI_TRACK_HEADER));
-	std::cout << "File type is: " << midi_track_header.MTrk << std::endl;
-	std::cout << "Bytes to follow: " << midi_track_header.ChunckSize << std::endl;
-	std::cout << "Delta time duration: " << midi_track_header.VariableLengthData << std::endl;
-	std::cout << "Status Byte: " << midi_track_header.StatusByte << std::endl;
-	std::cout << "Parameter 1: " << midi_track_header.Parameter_1 << std::endl;
-	std::cout << "Parameter 2: " << midi_track_header.Parameter_2 << std::endl;
+   return 0;
 }
