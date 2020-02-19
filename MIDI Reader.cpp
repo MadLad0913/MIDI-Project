@@ -8,7 +8,7 @@ using namespace smf;
 
 int main() {
    MidiFile midifile;
-   midifile.read("C:Users/micah/Downloads/la_campanella.mid");
+   midifile.read("C:Users\\micah\\Downloads\\la_campanella.mid");
    midifile.doTimeAnalysis();
    midifile.linkNotePairs();
 
