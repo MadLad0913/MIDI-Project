@@ -13,11 +13,11 @@ GLuint VBO, VAO, shader;
 static const char* vShader = "                                                \n\
 #version 330                                                                  \n\
                                                                               \n\
-layout (location = 0) in vec3 pos;											  \n\
+layout (location = 0) in vec3 pos;					      \n\
                                                                               \n\
 void main()                                                                   \n\
 {                                                                             \n\
-    gl_Position = vec4(0.4 * pos.x, 0.4 * pos.y, pos.z, 1.0);				  \n\
+    gl_Position = vec4(0.4 * pos.x, 0.4 * pos.y, pos.z, 1.0);		      \n\
 }";
 
 // Fragment Shader
@@ -165,9 +165,10 @@ int main()
 
 	// Setup Viewport size
 	glViewport(0, 0, bufferWidth, bufferHeight);
-	while ()
-	CreateTriangle();
-	CompileShaders();
+	while (event > 0) {
+		CreateTriangle();
+		CompileShaders();
+	}
 
 	// Loop until window closed
 	while (!glfwWindowShouldClose(mainWindow))
